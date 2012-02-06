@@ -3,9 +3,30 @@
  */
 function main() {
     //your code goes here
-    alert("hello world!");
+    //alert("hello world!");
+    var s  = new Spotter("twitter.search",
+	{q:"bieber",period:120},
+	{buffer:true,bufferTimeOut:750});
+    
+	var count = true;
+	var totCount = 1;
+    s.register(function(tweet) {
+    	
+        var profile_image = "<img src=\"" + tweet.profile_image_url+ "\" />";
+	if(totCount==11){
+	    $("#tweets p:last-child").remove();
+            totCount=10;
+	}
+	if(count){
+	$("#tweets").prepend($("<p class='red'>"+profile_image+tweet.text+"</p>").slideDown());
+	}else{
+	$("#tweets").prepend($("<p class='blue'>"+profile_image+tweet.text+"</p>").slideDown());
+	}
+        count = !count;	 	
+    	totCount++;
+});
 
-
+    s.start();
     //your tasks
 
     //1. Create a spotter and get it to insert tweets into the DOM
